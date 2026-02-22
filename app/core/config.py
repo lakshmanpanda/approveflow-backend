@@ -1,6 +1,8 @@
 # app/core/config.py
 from pydantic_settings import BaseSettings
 
+import os
+
 class Settings(BaseSettings):
     PROJECT_NAME: str = "ApproveFlow Enterprise API"
     API_V1_STR: str = "/api/v1"
@@ -25,7 +27,12 @@ class Settings(BaseSettings):
     
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
-        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        # local 
+        # return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        SQLALCHEMY_DATABASE_URL = os.getenv(
+            "DATABASE_URL", 
+            "postgresql://postgres:password@localhost:5432/approveflow" # Replace with your actual local credentials
+        )
 
     class Config:
         env_file = ".env"
