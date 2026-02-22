@@ -1,0 +1,117 @@
+# ApproveFlow Enterprise API - Backend
+
+This is the backend orchestration engine for the Dynamic Hierarchical Approval System. It is built with **Python 3.10+, FastAPI, and SQLAlchemy**, and relies on **PostgreSQL** for data and **MinIO** for secure document storage.
+
+---
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+- [Python 3.10+](https://www.python.org/downloads/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Required for running the database and object storage)
+
+---
+
+## 🚀 Quick Start Guide
+
+### 1. Configure the Environment
+
+Create a file named `.env` in the root directory of the project and paste the following credentials:
+
+```env
+PROJECT_NAME="ApproveFlow Enterprise API"
+SECRET_KEY="a-very-secure-random-secret-key-for-jwt"
+ALGORITHM="HS256"
+
+# Database Credentials
+POSTGRES_USER="postgres"
+POSTGRES_PASSWORD="supersecretpassword"
+POSTGRES_SERVER="localhost"
+POSTGRES_PORT="5432"
+POSTGRES_DB="approveflow"
+
+# MinIO Credentials
+MINIO_ENDPOINT="localhost:9000"
+MINIO_ACCESS_KEY="minioadmin"
+MINIO_SECRET_KEY="minioadmin123"
+MINIO_SECURE="False"
+```
+
+---
+
+### 2. Start the Infrastructure (Database & Storage)
+
+Open your terminal in the project root and start the Docker containers for PostgreSQL and MinIO:
+
+```bash
+docker-compose up -d
+```
+
+> **Note:** Keep Docker Desktop running in the background.
+
+---
+
+### 3. Install Python Dependencies
+
+It is highly recommended to use a virtual environment. Open your terminal (PowerShell for Windows) and run:
+
+```bash
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment (Windows)
+.\venv\Scripts\activate
+# (For Mac/Linux use: source venv/bin/activate)
+
+# Install required packages
+pip install -r requirements.txt
+```
+
+---
+
+### 4. Start the FastAPI Server
+
+Run the Uvicorn server. Upon startup, SQLAlchemy will automatically connect to PostgreSQL and generate all required database tables.
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+---
+
+### 5. Create the Initial Super Admin
+
+Because the system uses strict Role-Based Access Control (RBAC), you cannot create departments or workflows without an Admin account.
+
+Open a new terminal window (ensure your virtual environment is active) and run the admin injection script:
+
+```bash
+python create_admin.py
+```
+
+#### Default Admin Credentials
+
+- **Email:** admin@gmail.com  
+- **Password:** think@123  
+
+---
+
+## 📖 API Documentation & Testing
+
+Once the server is running, you can access the interactive API documentation and test the endpoints directly from your browser:
+
+- **Swagger UI:** http://localhost:8000/docs  
+- **ReDoc:** http://localhost:8000/redoc  
+
+---
+
+## 🔐 How to Authenticate in Swagger UI
+
+1. Navigate to the Swagger UI link above.  
+2. Click the green **Authorize** button at the top of the page.  
+3. Enter the Super Admin credentials:  
+   `admin@gmail.com / think@123`  
+4. Click **Authorize**.
+
+Swagger will now automatically attach your JWT token to all subsequent requests.

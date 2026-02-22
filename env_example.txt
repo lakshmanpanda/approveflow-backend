@@ -1,0 +1,21 @@
+#create .env file from this template
+
+# .env
+PROJECT_NAME="ApproveFlow Enterprise API"
+
+# Security (You can generate a random string for this in production)
+SECRET_KEY="a-very-secure-random-secret-key-for-jwt"
+ALGORITHM="HS256"
+
+# Database Credentials (Matches the docker-compose.yml)
+POSTGRES_USER="postgres"
+POSTGRES_PASSWORD="supersecretpassword"
+POSTGRES_SERVER="localhost"
+POSTGRES_PORT="5432"
+POSTGRES_DB="approveflow"
+
+# MinIO Credentials (Matches the docker-compose.yml)
+MINIO_ENDPOINT="localhost:9000"
+MINIO_ACCESS_KEY="minioadmin"
+MINIO_SECRET_KEY="minioadmin123"
+MINIO_SECURE="False"
