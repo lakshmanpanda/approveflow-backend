@@ -27,12 +27,17 @@ class Settings(BaseSettings):
     
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
-        # local 
-        # return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-        SQLALCHEMY_DATABASE_URL = os.getenv(
+        # Grab from Render Environment, fallback to your local Docker settings
+        db_url = os.getenv(
             "DATABASE_URL", 
-            "postgresql://postgres:password@localhost:5432/approveflow" # Replace with your actual local credentials
+            f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
+        
+        # SQLAlchemy requires 'postgresql://' but Neon gives 'postgres://'
+        if db_url and db_url.startswith("postgres://"):
+            db_url = db_url.replace("postgres://", "postgresql://", 1)
+            
+        return db_url
 
     class Config:
         env_file = ".env"
