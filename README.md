@@ -6,12 +6,19 @@ This is the backend orchestration engine for the Dynamic Hierarchical Approval S
 It is built with **Python 3.10+, FastAPI, and SQLAlchemy**, and has been engineered for production using a distributed cloud architecture.
 
 ## 🏗️ Production Architecture
-The system has been migrated from a local Docker environment to a scalable cloud-native stack:* **API Framework:** FastAPI (Asynchronous Python) hosted on **Render.com**.* **Relational Database:** PostgreSQL hosted on **Neon.tech** (Serverless).* **Object Storage:** S3-Compatible cloud storage via **Backblaze B2**.* **PDF Engine:** `xhtml2pdf` for dynamic generation of approved documents with digital stamps.
+The system has been migrated from a local Docker environment to a scalable cloud-native stack:* 
+**API Framework:** FastAPI (Asynchronous Python) hosted on **Render.com**.* 
+**Relational Database:** PostgreSQL hosted on **Neon.tech** (Serverless).* 
+**Object Storage:** S3-Compatible cloud storage via **Backblaze B2**.* 
+**PDF Engine:** `xhtml2pdf` for dynamic generation of approved documents with digital stamps.
 
 
 
 ## 📊 Database Schema & Relationships
-The backend uses **SQLAlchemy** to manage a complex hierarchical data model designed for organizational workflows:* **Organization Module:** Manages `User`, `Department`, and `Position`. It supports strict Role-Based Access Control (RBAC).* **Workflow Engine:** `Workflow` and `WorkflowStage` models define the path a document must take.* **Submission Module:** `FormSubmission` and `ApprovalRequest` track the live state and history of every request.* **Audit System:** `AuditLog` provides an immutable trail of every action for enterprise compliance.
+The backend uses **SQLAlchemy** to manage a complex hierarchical data model designed for organizational workflows:* 
+**Organization Module:** Manages `User`, `Department`, and `Position`. It supports strict Role-Based Access Control (RBAC).* **Workflow Engine:** `Workflow` and `WorkflowStage` models define the path a document must take.* 
+**Submission Module:** `FormSubmission` and `ApprovalRequest` track the live state and history of every request.* 
+**Audit System:** `AuditLog` provides an immutable trail of every action for enterprise compliance.
 
 ## 🛠️ Environment Configuration (Production)
 For security, the system relies on environment variables. These are configured in the Render Dashboard:```env
